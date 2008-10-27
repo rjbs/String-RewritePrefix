@@ -9,7 +9,7 @@ String::RewritePrefix - rewrite strings based on a set of known prefixes
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -24,7 +24,7 @@ version 0.001
 
 =cut
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 $VERSION = eval $VERSION; # convert '1.23_45' to 1.2345
 
 =head1 METHODS
@@ -55,6 +55,12 @@ sub new_rewriter {
   return sub {
     my @result;
 
+    Carp::cluck("string rewriter invoked in void context")
+      unless defined wantarray;
+
+    Carp::croak("attempt to rewrite multiple strings outside of list context")
+      if @_ > 1 and ! wantarray;
+
     STRING: for my $str (@_) {
       for (my $i = 0; $i < @rewrites; $i += 2) {
         if (index($str, $rewrites[$i]) == 0) {
@@ -66,7 +72,7 @@ sub new_rewriter {
       push @result, $str;
     }
     
-    return @result;
+    return wantarray ? @result : $result[0];
   };
 }
 
