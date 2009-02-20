@@ -1,5 +1,8 @@
 Revision history for String-RewritePrefix
 
+0.004     2009-02-20
+          allow coderef prefix generators (thanks FLORA)
+
 0.002     2008-09-05
           allow scalar context for 1 element rewrite -- and ONLY those
 

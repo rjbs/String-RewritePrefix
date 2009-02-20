@@ -9,7 +9,7 @@ String::RewritePrefix - rewrite strings based on a set of known prefixes
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -24,7 +24,7 @@ version 0.003
 
 =cut
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =head1 METHODS
 
