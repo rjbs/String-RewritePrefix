@@ -1,15 +1,19 @@
 use strict;
-require 5.006;
 use ExtUtils::MakeMaker;
-my $dist = 'String-RewritePrefix';
-(my $meta_from = $dist ) =~ s{-}{/}g;
-$meta_from = "lib/$meta_from\.pm";
+
 WriteMakefile(
-    NAME          => $dist,
-    AUTHOR        => 'Ricardo SIGNES <rjbs@cpan.org>',
-    ABSTRACT_FROM => $meta_from,
-    VERSION_FROM  => $meta_from,
-    PREREQ_PM     => {
-        'Test::Simple' => 0.47, 
-    },
+  NAME          => 'String::RewritePrefix',
+  VERSION_FROM  => 'lib/String/RewritePrefix.pm',
+  (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
+  PREREQ_PM     => {
+    'Test::More' => '0.47',
+  },
+  (eval { ExtUtils::MakeMaker->VERSION(6.46) }
+    ? (META_MERGE => {
+        resources => {
+          Repository => 'http://github.com/rjbs/string-rewriteprefix'
+        }
+      })
+    : ()
+  ),
 );
