@@ -34,9 +34,10 @@ our $VERSION = '0.003';
 
 This rewrites all the given strings using the rules in C<%prefix>.  Its keys
 are known prefixes for which its values will be substituted.  This is performed
-in longest-first order, and only one prefix will be rewritten.  If the prefix
-value is a coderef, it will be executed with the remaining string as its only
-argument and the return value will be substituted.
+in longest-first order, and only one prefix will be rewritten.
+
+If the prefix value is a coderef, it will be executed with the remaining string
+as its only argument.  The return value will be used as the prefix.
 
 =cut
 
