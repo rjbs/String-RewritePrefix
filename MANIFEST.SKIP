@@ -31,3 +31,5 @@
 \.swp$
 \.bak$
 ^pod.*\.tmp$
+
+^String-Rewrite*
