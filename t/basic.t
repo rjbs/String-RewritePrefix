@@ -8,6 +8,7 @@ use String::RewritePrefix;
 my $rewriter = String::RewritePrefix->new_rewriter({
   '-' => 'Tet::',
   '@' => 'KaTet::',
+  '+' => sub { $_[0] . '::Foo::' },
 });
 
 my @results = $rewriter->(qw(
@@ -15,11 +16,12 @@ my @results = $rewriter->(qw(
   @Roller
   Plinko
   -@Oops
+  +Bar
 ));
 
 is_deeply(
   \@results,
-  [ qw(Tet::Corporation KaTet::Roller Plinko Tet::@Oops) ],
+  [ qw(Tet::Corporation KaTet::Roller Plinko Tet::@Oops Bar::Foo::Bar) ],
   "rewrote prefices",
 );
 
