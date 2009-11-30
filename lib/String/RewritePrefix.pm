@@ -3,13 +3,17 @@ use warnings;
 package String::RewritePrefix;
 use Carp ();
 
+use Sub::Exporter -setup => {
+  exports => [ rewrite => \'_new_rewriter' ],
+};
+
 =head1 NAME
 
 String::RewritePrefix - rewrite strings based on a set of known prefixes
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -22,9 +26,21 @@ version 0.004
   # now you have:
   qw(MyApp::Plugin MyApp::Mixin MyApp::Addon Corporate::Thinger)
 
+You can also import a rewrite routine:
+
+  use String::RewritePrefix rewrite => {
+    -as => 'rewrite_dt_prefix',
+    prefixes => { '' => 'MyApp::', '+' => '' },
+  };
+
+  my @to_load = rewrite_dt_prefix( qw(Plugin Mixin Addon +Corporate::Thinger));
+
+  # now you have:
+  qw(MyApp::Plugin MyApp::Mixin MyApp::Addon Corporate::Thinger)
+
 =cut
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 =head1 METHODS
 
@@ -43,11 +59,12 @@ as its only argument.  The return value will be used as the prefix.
 
 sub rewrite {
   my ($self, $arg, @rest) = @_;
-  return $self->new_rewriter($arg)->(@rest);
+  return $self->_new_rewriter(rewrite => { prefixes => $arg })->(@rest);
 }
 
-sub new_rewriter {
-  my ($self, $rewrites) = @_;
+sub _new_rewriter {
+  my ($self, $name, $arg) = @_;
+  my $rewrites = $arg->{prefixes} || {};
 
   my @rewrites;
   for my $prefix (sort { length $b <=> length $a } keys %$rewrites) {

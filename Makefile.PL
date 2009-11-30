@@ -7,6 +7,7 @@ WriteMakefile(
   (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM     => {
     'Test::More' => '0.47',
+    'Sub::Exporter' => 0,
   },
   (eval { ExtUtils::MakeMaker->VERSION(6.46) }
     ? (META_MERGE => {
