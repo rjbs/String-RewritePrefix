@@ -1,5 +1,8 @@
 Revision history for String-RewritePrefix
 
+{{$NEXT}}
+          do not warn if a coderef prefix generator returns undef
+
 0.005     2009-11-30
           export "rewrite" with Sub::Exporter
           prefix new_rewriter with a _; it was always private

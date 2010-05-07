@@ -11,6 +11,7 @@ my $rewriter = String::RewritePrefix->_new_rewriter(undef, {
     '-' => 'Tet::',
     '@' => 'KaTet::',
     '+' => sub { $_[0] . '::Foo::' },
+    '!' => sub { return undef },
   },
 });
 
@@ -20,11 +21,12 @@ my @results = $rewriter->(qw(
   Plinko
   -@Oops
   +Bar
+  !None
 ));
 
 is_deeply(
   \@results,
-  [ qw(Tet::Corporation KaTet::Roller Plinko Tet::@Oops Bar::Foo::Bar) ],
+  [ qw(Tet::Corporation KaTet::Roller Plinko Tet::@Oops Bar::Foo::Bar None) ],
   "rewrote prefices",
 );
 

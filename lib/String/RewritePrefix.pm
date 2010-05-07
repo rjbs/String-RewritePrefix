@@ -85,7 +85,8 @@ sub _new_rewriter {
         if (index($str, $rewrites[$i]) == 0) {
           if (ref $rewrites[$i+1]) {
             my $rest = substr $str, length($rewrites[$i]);
-            push @result, $rewrites[$i+1]->($rest) . $rest;
+            my $str  = $rewrites[ $i+1 ]->($rest);
+            push @result, (defined $str ? $str : '') . $rest;
           } else {
             push @result, $rewrites[$i+1] . substr $str, length($rewrites[$i]);
           }
