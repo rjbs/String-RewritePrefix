@@ -2,18 +2,12 @@ use strict;
 use warnings;
 package String::RewritePrefix;
 use Carp ();
+# ABSTRACT: rewrite strings based on a set of known prefixes
 
-use Sub::Exporter -setup => {
+# 0.972 allows \'method_name' form -- rjbs, 2010-10-25
+use Sub::Exporter 0.972 -setup => {
   exports => [ rewrite => \'_new_rewriter' ],
 };
-
-=head1 NAME
-
-String::RewritePrefix - rewrite strings based on a set of known prefixes
-
-=head1 VERSION
-
-version 0.005
 
 =head1 SYNOPSIS
 
@@ -38,13 +32,7 @@ You can also import a rewrite routine:
   # now you have:
   qw(MyApp::Plugin MyApp::Mixin MyApp::Addon Corporate::Thinger)
 
-=cut
-
-our $VERSION = '0.005';
-
-=head1 METHODS
-
-=head2 rewrite
+=method rewrite
 
   String::RewritePrefix->rewrite(\%prefix, @strings);
 
@@ -100,18 +88,5 @@ sub _new_rewriter {
     return wantarray ? @result : $result[0];
   };
 }
-
-=head1 AUTHOR
-
-Ricardo SIGNES <rjbs@cpan.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2008 by Ricardo SIGNES.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

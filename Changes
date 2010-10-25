@@ -1,6 +1,8 @@
 Revision history for String-RewritePrefix
 
 {{$NEXT}}
+          give explicit Sub::Exporter requirement
+
           do not warn if a coderef prefix generator returns undef
 
 0.005     2009-11-30
