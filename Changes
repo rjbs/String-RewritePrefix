@@ -2,6 +2,9 @@ Revision history for String-RewritePrefix
 
 {{$NEXT}}
 
+0.007     2013-10-15 22:37:01 America/New_York
+          update bugtracker and repo metadata
+
 0.006     2010-10-25 15:36:37 America/New_York
           give explicit Sub::Exporter requirement
 
