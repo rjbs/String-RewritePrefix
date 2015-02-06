@@ -43,7 +43,7 @@ in longest-first order, and only one prefix will be rewritten.
 If the prefix value is a coderef, it will be executed with the remaining string
 as its only argument.  The return value will be used as the prefix.
 
-Any non-scalar values in C<@strings> are ignored.
+Any non-scalar values in C<@strings> are passed through untouched.
 
 =cut
 
