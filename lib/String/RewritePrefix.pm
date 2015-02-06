@@ -43,6 +43,8 @@ in longest-first order, and only one prefix will be rewritten.
 If the prefix value is a coderef, it will be executed with the remaining string
 as its only argument.  The return value will be used as the prefix.
 
+Any non-scalar values in C<@strings> are passed through untouched.
+
 =cut
 
 sub rewrite {
@@ -70,7 +72,7 @@ sub _new_rewriter {
 
     STRING: for my $str (@_) {
       for (my $i = 0; $i < @rewrites; $i += 2) {
-        if (index($str, $rewrites[$i]) == 0) {
+        if (!ref $str && index($str, $rewrites[$i]) == 0) {
           if (ref $rewrites[$i+1]) {
             my $rest = substr $str, length($rewrites[$i]);
             my $str  = $rewrites[ $i+1 ]->($rest);
