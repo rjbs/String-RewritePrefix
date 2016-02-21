@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package String::RewritePrefix;
+
 use Carp ();
 # ABSTRACT: rewrite strings based on a set of known prefixes
 
