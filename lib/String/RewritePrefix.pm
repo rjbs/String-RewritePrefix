@@ -78,13 +78,14 @@ sub rewrite {
 }
 
 sub _new_rewriter {
-  my ($self, $name, $arg) = @_;
-  my $rewrites = $arg->{prefixes} || {};
+  # my ($self, $name, $arg) = @_;
+  my $rewrites = $_[2]->{prefixes} || {};
 
-  my @rewrites;
-  for my $prefix (sort { length $b <=> length $a } keys %$rewrites) {
-    push @rewrites, ($prefix, $rewrites->{$prefix});
-  }
+  my @rewrites =
+    map { ($_, $rewrites->{$_}) }
+    sort { length $b <=> length $a }
+    keys %$rewrites
+  ;
 
   return sub {
 
