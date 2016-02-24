@@ -48,7 +48,7 @@ as its only argument.  The return value will be used as the prefix.
 
 sub rewrite {
   shift; # $self
-  my $rewrites = shift;
+  my $rewrites = shift || {};
 
   Carp::cluck("rewrite invoked in void context")
     unless defined wantarray;
