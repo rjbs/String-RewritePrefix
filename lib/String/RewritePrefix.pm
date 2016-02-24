@@ -87,7 +87,6 @@ sub _new_rewriter {
   }
 
   return sub {
-    my @result;
 
     Carp::cluck("string rewriter invoked in void context")
       unless defined wantarray;
@@ -95,24 +94,23 @@ sub _new_rewriter {
     Carp::croak("attempt to rewrite multiple strings outside of list context")
       if @_ > 1 and ! wantarray;
 
-    STRING: for my $str (@_) {
+    my @result = @_;
+    for my $str (@result) {
       for (my $i = 0; $i < @rewrites; $i += 2) {
         if (index($str, $rewrites[$i]) == 0) {
           if (ref $rewrites[$i+1]) {
-            my $rest = substr $str, length($rewrites[$i]);
-            my $str  = $rewrites[ $i+1 ]->($rest);
-            push @result, (defined $str ? $str : '') . $rest;
+            substr($str, 0, length($rewrites[$i]), '');
+            my $repl = $rewrites[ $i+1 ]->($str);
+            substr($str, 0, 0, $repl) if defined $repl;
           } else {
-            push @result, $rewrites[$i+1] . substr $str, length($rewrites[$i]);
+            substr($str, 0, length($rewrites[$i]), $rewrites[$i+1])
           }
-          next STRING;
+          last
         }
       }
-
-      push @result, $str;
+      return $str unless wantarray;
     }
-    
-    return wantarray ? @result : $result[0];
+    @result
   };
 }
 
