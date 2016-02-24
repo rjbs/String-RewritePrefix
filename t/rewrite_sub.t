@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3*2;
+use Test::More tests => 34;
 
 use String::RewritePrefix ();
 
@@ -20,8 +20,16 @@ sub test_rewrite
     }
   );
   my $rewriter = __PACKAGE__->can($rewriter_name);
+
+  # List context
   is_deeply([ $rewriter->(@$in) ], $expected, $rewriter_name);
   is_deeply([ String::RewritePrefix->rewrite($prefixes, @$in) ], $expected);
+
+  # Scalar context
+  for(my $i=0; $i<=$#$in; $i++) {
+    is_deeply(scalar $rewriter->($in->[$i]), $expected->[$i], "$in->[$i] => $expected->[$i]");
+    is_deeply(scalar String::RewritePrefix->rewrite($prefixes, $in->[$i]), $expected->[$i]);
+  }
 }
 
 
