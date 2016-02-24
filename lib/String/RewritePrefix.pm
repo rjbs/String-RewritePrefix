@@ -47,8 +47,34 @@ as its only argument.  The return value will be used as the prefix.
 =cut
 
 sub rewrite {
-  my ($self, $arg, @rest) = @_;
-  return $self->_new_rewriter(rewrite => { prefixes => $arg })->(@rest);
+  shift; # $self
+  my $rewrites = shift;
+
+  Carp::cluck("rewrite invoked in void context")
+    unless defined wantarray;
+
+  Carp::croak("attempt to rewrite multiple strings outside of list context")
+    if @_ > 1 and ! wantarray;
+
+  my @prefixes = sort { length $b <=> length $a } keys %$rewrites;
+  my @result = @_;
+  for my $str (@result) {
+    for my $pfx (@prefixes) {
+      if (index($str, $pfx) == 0) {
+        my $repl = $rewrites->{$pfx};
+        if (ref $repl) {
+          substr($str, 0, length($pfx), '');
+          $repl = $repl->($str);
+          substr($str, 0, 0, $repl) if defined $repl;
+        } else {
+          substr($str, 0, length($pfx), $repl)
+        }
+        last
+      }
+    }
+    return $str unless wantarray;
+  }
+  @result
 }
 
 sub _new_rewriter {
