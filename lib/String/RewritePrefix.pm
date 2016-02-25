@@ -53,8 +53,14 @@ sub rewrite {
   Carp::cluck("rewrite invoked in void context")
     unless defined wantarray;
 
-  Carp::croak("attempt to rewrite multiple strings outside of list context")
-    if @_ > 1 and ! wantarray;
+  # Checks for scalar context
+  unless (wantarray) {
+    if (@_ > 1) {
+      Carp::croak("attempt to rewrite multiple strings outside of list context")
+    } elsif (@_ == 0) {
+      Carp::cluck("rewrite invoked without args")
+    }
+  }
 
   my @prefixes = sort { length $b <=> length $a } keys %$rewrites;
   my @result = @_;
@@ -92,8 +98,14 @@ sub _new_rewriter {
     Carp::cluck("string rewriter invoked in void context")
       unless defined wantarray;
 
-    Carp::croak("attempt to rewrite multiple strings outside of list context")
-      if @_ > 1 and ! wantarray;
+    # Checks for scalar context
+    unless (wantarray) {
+      if (@_ > 1) {
+        Carp::croak("attempt to rewrite multiple strings outside of list context")
+      } elsif (@_ == 0) {
+        Carp::cluck("rewrite invoked without args")
+      }
+    }
 
     my @result = @_;
     for my $str (@result) {
