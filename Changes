@@ -1,6 +1,8 @@
 Revision history for String-RewritePrefix
 
 {{$NEXT}}
+        - update packaging and metadata
+        - minimum required Perl is now v5.12
 
 0.008     2020-01-25 16:10:30-05:00 America/New_York
           more tests (thanks, Olivier Mengué!)
